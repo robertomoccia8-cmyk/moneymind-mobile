@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoneyMindApp.ViewModels"
+             xmlns:models="clr-namespace:MoneyMindApp.Models"
+             x:Class="MoneyMindApp.Views.AccountSelectionPage"
+             x:DataType="vm:AccountSelectionViewModel"
+             Title="I Miei Conti">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20,16,20,0">
+
+        <!-- Header Section -->
+        <VerticalStackLayout Grid.Row="0" Spacing="8" Margin="0,0,0,20">
+            <Label Text="I Miei Conti"
+                   FontFamily="PoppinsSemiBold"
+                   FontSize="28"
+                   TextColor="{StaticResource TextPrimary}" />
+
+            <Label FontFamily="PoppinsRegular"
+                   FontSize="14"
+                   TextColor="{StaticResource TextSecondary}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding Accounts.Count}" />
+                        <Span Text=" conti attivi" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </VerticalStackLayout>
+
+        <!-- Accounts List -->
+        <RefreshView Grid.Row="1"
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsLoading}"
+                     RefreshColor="{StaticResource Primary}">
+            <CollectionView ItemsSource="{Binding Accounts}"
+                           EmptyView="Nessun conto trovato. Tocca + per aggiungerne uno.">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="16" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:BankAccount">
+                        <Border StrokeShape="RoundRectangle 20"
+                               StrokeThickness="0"
+                               Padding="20,18">
+                            <Border.Shadow>
+                                <Shadow Brush="Black" Opacity="0.15" Offset="0,4" Radius="16" />
+                            </Border.Shadow>
+
+                            <!-- Gradient Background -->
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="{Binding Colore, Converter={StaticResource ColorConverter}}" Offset="0.0" />
+                                    <GradientStop Color="{Binding Colore, Converter={StaticResource ColorConverter}, ConverterParameter=0.85}" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+
+                                <!-- Icon Circle -->
+                                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                       StrokeShape="RoundRectangle 28"
+                                       BackgroundColor="#40FFFFFF"
+                                       WidthRequest="56"
+                                       HeightRequest="56"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,16,0">
+                                    <Label Text="{Binding Icona}"
+                                           FontSize="32"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <!-- Account Name -->
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       Text="{Binding Nome}"
+                                       FontFamily="PoppinsSemiBold"
+                                       FontSize="19"
+                                       TextColor="White"
+                                       VerticalOptions="Center" />
+
+                                <!-- Current Balance Label -->
+                                <Label Grid.Row="1" Grid.Column="1"
+                                       Text="Saldo Corrente"
+                                       FontFamily="PoppinsRegular"
+                                       FontSize="12"
+                                       TextColor="White"
+                                       Opacity="0.85"
+                                       VerticalOptions="Start"
+                                       Margin="0,2,0,0" />
+
+                                <!-- Balance Amount -->
+                                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                       Text="{Binding SaldoCorrente, StringFormat='{0:C2}'}"
+                                       FontFamily="PoppinsSemiBold"
+                                       FontSize="32"
+                                       TextColor="White"
+                                       Margin="0,12,0,0" />
+
+                                <!-- Last Accessed -->
+                                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                       Text="{Binding LastAccessedAt, StringFormat='Ultimo accesso: {0:dd/MM/yyyy HH:mm}'}"
+                                       FontFamily="PoppinsRegular"
+                                       FontSize="11"
+                                       TextColor="White"
+                                       Opacity="0.75"
+                                       IsVisible="{Binding LastAccessedAt, Converter={StaticResource IsNotNullConverter}}"
+                                       Margin="0,8,0,0" />
+
+                                <!-- Selected Indicator -->
+                                <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                       StrokeShape="RoundRectangle 20"
+                                       Stroke="White"
+                                       StrokeThickness="2"
+                                       BackgroundColor="White"
+                                       WidthRequest="40"
+                                       HeightRequest="40"
+                                       VerticalOptions="Center"
+                                       IsVisible="{Binding Id, Converter={StaticResource SelectedAccountConverter}, ConverterParameter={Binding Source={RelativeSource AncestorType={x:Type vm:AccountSelectionViewModel}}, Path=SelectedAccount.Id}}">
+                                    <Label Text="✓"
+                                           FontSize="24"
+                                           TextColor="{Binding Colore, Converter={StaticResource ColorConverter}}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <!-- Action Buttons - Minimal Style -->
+                                <HorizontalStackLayout Grid.Row="3" Grid.Column="2" Spacing="12" Margin="0,8,0,0">
+
+                                    <!-- Edit Button - Pen Icon -->
+                                    <Border StrokeThickness="0"
+                                           BackgroundColor="#40FFFFFF"
+                                           StrokeShape="RoundRectangle 18"
+                                           WidthRequest="36"
+                                           HeightRequest="36"
+                                           Padding="0">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountSelectionViewModel}}, Path=EditAccountCommand}"
+                                                                 CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Grid>
+                                            <!-- Pen Icon - Custom drawn -->
+                                            <Path Data="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                                  Fill="White"
+                                                  Aspect="Uniform"
+                                                  HeightRequest="16"
+                                                  WidthRequest="16"
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- Delete Button - Trash Icon -->
+                                    <Border StrokeThickness="0"
+                                           BackgroundColor="#40FFFFFF"
+                                           StrokeShape="RoundRectangle 18"
+                                           WidthRequest="36"
+                                           HeightRequest="36"
+                                           Padding="0">
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountSelectionViewModel}}, Path=DeleteAccountCommand}"
+                                                                 CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+
+                                        <Grid>
+                                            <!-- Trash Icon - Custom drawn -->
+                                            <Path Data="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                  Fill="White"
+                                                  Aspect="Uniform"
+                                                  HeightRequest="16"
+                                                  WidthRequest="16"
+                                                  HorizontalOptions="Center"
+                                                  VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                            <!-- Tap Gesture to Select -->
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AccountSelectionViewModel}}, Path=SelectAccountCommand}"
+                                                     CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Add Button (FAB) - Gradient Style -->
+        <Border Grid.Row="2"
+               StrokeThickness="0"
+               StrokeShape="RoundRectangle 32"
+               WidthRequest="64"
+               HeightRequest="64"
+               HorizontalOptions="End"
+               VerticalOptions="End"
+               Margin="0,0,0,20">
+            <Border.Shadow>
+                <Shadow Brush="{StaticResource Primary}" Opacity="0.4" Radius="12" Offset="0,6" />
+            </Border.Shadow>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource Primary}" Offset="0.0" />
+                    <GradientStop Color="{StaticResource Secondary}" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddAccountCommand}" />
+            </Border.GestureRecognizers>
+
+            <Grid>
+                <!-- Custom + Icon -->
+                <BoxView Color="White"
+                        WidthRequest="24"
+                        HeightRequest="3"
+                        CornerRadius="1.5"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                <BoxView Color="White"
+                        WidthRequest="3"
+                        HeightRequest="24"
+                        CornerRadius="1.5"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator Grid.Row="1"
+                          IsRunning="{Binding IsLoading}"
+                          IsVisible="{Binding IsLoading}"
+                          Color="{StaticResource Primary}"
+                          VerticalOptions="Center"
+                          HorizontalOptions="Center" />
+
+    </Grid>
+
+</ContentPage>

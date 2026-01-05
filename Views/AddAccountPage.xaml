@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.AddAccountPage"
+             x:DataType="viewmodels:AddAccountViewModel"
+             Title="Nuovo Conto"
+             Shell.NavBarIsVisible="True">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Nome Conto -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="8">
+                    <Label Text="Nome Conto" FontSize="12" TextColor="{StaticResource Gray500}" />
+                    <Entry Text="{Binding AccountName}"
+                           Placeholder="es. Conto Corrente, Carta Prepagata..."
+                           PlaceholderColor="{StaticResource Gray500}"
+                           MaxLength="50" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Icona Emoji -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Icona" FontSize="12" TextColor="{StaticResource Gray500}" />
+
+                    <!-- Selected Icon Preview -->
+                    <Border StrokeShape="RoundRectangle 12"
+                            BackgroundColor="{Binding SelectedColor, Converter={StaticResource ColorConverter}}"
+                            Padding="20"
+                            HorizontalOptions="Center">
+                        <Label Text="{Binding SelectedIcon}"
+                               FontSize="48"
+                               HorizontalOptions="Center" />
+                    </Border>
+
+                    <!-- Icon Picker -->
+                    <Label Text="Seleziona Icona" FontSize="12" TextColor="{StaticResource Gray500}" />
+                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="💳" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="💳" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="🏦" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="🏦" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="💰" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="💰" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="💵" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="💵" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="💸" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="💸" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="🪙" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="🪙" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="💎" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="💎" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 8" Padding="12" Margin="4">
+                            <Label Text="🎯" FontSize="32">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectIconCommand}" CommandParameter="🎯" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Border>
+                    </FlexLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Colore -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Colore" FontSize="12" TextColor="{StaticResource Gray500}" />
+
+                    <FlexLayout Wrap="Wrap" JustifyContent="SpaceEvenly" AlignItems="Center">
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#512BD4">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#512BD4" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#2196F3">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#2196F3" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#4CAF50">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#4CAF50" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#FF9800">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#FF9800" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#F44336">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#F44336" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#9C27B0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#9C27B0" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#795548">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#795548" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" Margin="8" BackgroundColor="#607D8B">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectColorCommand}" CommandParameter="#607D8B" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </FlexLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Saldo Iniziale -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="8">
+                    <Label Text="Saldo Iniziale" FontSize="12" TextColor="{StaticResource Gray500}" />
+                    <HorizontalStackLayout Spacing="12">
+                        <Entry Text="{Binding InitialBalance}"
+                               Placeholder="0.00"
+                               PlaceholderColor="{StaticResource Gray500}"
+                               Keyboard="Numeric"
+                               HorizontalOptions="FillAndExpand"
+                               FontSize="20" />
+                        <Label Text="€"
+                               FontSize="20"
+                               VerticalOptions="Center"
+                               TextColor="{StaticResource Primary}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,20,0,0">
+                <Button Grid.Column="0"
+                        Text="Annulla"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Gray300}"
+                        TextColor="{StaticResource Gray900}" />
+
+                <Button Grid.Column="1"
+                        Text="Crea Conto"
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

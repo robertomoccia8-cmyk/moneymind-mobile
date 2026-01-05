@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.WiFiSyncPage"
+             x:DataType="viewmodels:WiFiSyncViewModel"
+             Title="Sincronizzazione WiFi">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Server Status Section -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Server Sincronizzazione"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+                    <!-- Server Status -->
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Stato:"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        <Label Text="{Binding ServerStatus}"
+                               FontAttributes="Bold" />
+                    </HorizontalStackLayout>
+
+                    <!-- IP Address (visible when server running) -->
+                    <VerticalStackLayout Spacing="8" IsVisible="{Binding IsServerRunning}">
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="Indirizzo IP:"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                            <Label Text="{Binding IpAddress}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="Porta:"
+                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                            <Label Text="{Binding Port}"
+                                   FontAttributes="Bold" />
+                        </HorizontalStackLayout>
+
+                        <!-- Connection URL with copy button -->
+                        <Border StrokeShape="RoundRectangle 8"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray800}}"
+                                Padding="12">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0"
+                                       Text="{Binding ConnectionUrl}"
+                                       FontFamily="Consolas"
+                                       FontSize="14"
+                                       VerticalOptions="Center" />
+                                <Button Grid.Column="1"
+                                        Text="Copia"
+                                        Command="{Binding CopyConnectionUrlCommand}"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        WidthRequest="80"
+                                        HeightRequest="36"
+                                        Padding="8,0" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <!-- Start/Stop Button -->
+                    <Button Text="{Binding IsServerRunning, Converter={StaticResource BoolToStringConverter}, ConverterParameter='Arresta Server|Avvia Server'}"
+                            Command="{Binding ToggleServerCommand}"
+                            BackgroundColor="{Binding IsServerRunning, Converter={StaticResource BoolToColorConverter}}"
+                            IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                            Margin="0,8,0,0" />
+
+                    <!-- Loading indicator -->
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       IsVisible="{Binding IsLoading}"
+                                       Color="{StaticResource Primary}" />
+
+                    <!-- Status message -->
+                    <Label Text="{Binding StatusMessage}"
+                           TextColor="{StaticResource Gray500}"
+                           IsVisible="{Binding StatusMessage, Converter={StaticResource StringToBoolConverter}}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Instructions Section -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                    IsVisible="{Binding ShowInstructions}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Come Sincronizzare"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+                    <Label Text="1. Connetti entrambi i dispositivi alla stessa rete WiFi"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                    <Label Text="2. Avvia il server su questa app"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                    <Label Text="3. Apri MoneyMind Desktop → Impostazioni → Sync WiFi"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                    <Label Text="4. Inserisci l'IP mostrato qui e connetti"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                    <Button Text="Guida Completa"
+                            Command="{Binding ShowHelpCommand}"
+                            BackgroundColor="{StaticResource Info}"
+                            Margin="0,8,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Sync Statistics Section -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Statistiche Sincronizzazione"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="Auto,Auto,Auto"
+                          RowSpacing="8"
+                          ColumnSpacing="12">
+
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Ultima sync:"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="{Binding LastSyncTime}"
+                               FontAttributes="Bold" />
+
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Direzione:"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding LastSyncDirection}" />
+
+                        <Label Grid.Row="2" Grid.Column="0"
+                               Text="Trans. ricevute:"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="{Binding TransactionsReceived}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Backup Section -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Backup"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+                    <Label Text="Un backup viene creato automaticamente prima di ogni sincronizzazione."
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                           FontSize="13" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,8,0,0">
+                        <Button Grid.Column="0"
+                                Text="Crea Backup"
+                                Command="{Binding CreateManualBackupCommand}"
+                                BackgroundColor="{StaticResource Primary}"
+                                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" />
+                        <Button Grid.Column="1"
+                                Text="Ripristina"
+                                Command="{Binding RestoreBackupCommand}"
+                                BackgroundColor="{StaticResource Warning}"
+                                IsEnabled="{Binding HasBackups}" />
+                    </Grid>
+
+                    <!-- Recent backups count -->
+                    <Label Text="{Binding RecentBackups.Count, StringFormat='Backup disponibili: {0}'}"
+                           TextColor="{StaticResource Gray500}"
+                           FontSize="12"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Sync Modes Info -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Modalita di Sincronizzazione"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+                    <!-- Replace Mode -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="SOSTITUISCI"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Danger}" />
+                        <Label Text="Cancella tutte le transazioni sulla destinazione e copia dalla sorgente."
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               FontSize="13" />
+                    </VerticalStackLayout>
+
+                    <!-- Merge Mode -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="UNISCI"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Success}" />
+                        <Label Text="Mantiene le transazioni esistenti e aggiunge solo quelle non duplicate (stessa data e descrizione)."
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               FontSize="13" />
+                    </VerticalStackLayout>
+
+                    <!-- NewOnly Mode -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="SOLO NUOVE"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Info}" />
+                        <Label Text="Aggiunge solo le transazioni con data successiva all'ultima presente sulla destinazione."
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}"
+                               FontSize="13" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

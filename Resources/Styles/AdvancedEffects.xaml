@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ==================== -->
+    <!-- Advanced Gradients   -->
+    <!-- ==================== -->
+
+    <!-- Primary Gradient (Purple to Blue) -->
+    <LinearGradientBrush x:Key="GradientPrimary" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#6750A4" Offset="0.0" />
+        <GradientStop Color="#4F378B" Offset="0.5" />
+        <GradientStop Color="#3D2C6D" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Balance Hero Gradient (Rich Purple/Violet) -->
+    <LinearGradientBrush x:Key="GradientBalance" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#7C4DFF" Offset="0.0" />
+        <GradientStop Color="#651FFF" Offset="0.4" />
+        <GradientStop Color="#5E35B1" Offset="0.7" />
+        <GradientStop Color="#512DA8" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Income Gradient (Emerald to Green) -->
+    <LinearGradientBrush x:Key="GradientIncome" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#00E676" Offset="0.0" />
+        <GradientStop Color="#00C853" Offset="0.5" />
+        <GradientStop Color="#00953A" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Expense Gradient (Red to Deep Red) -->
+    <LinearGradientBrush x:Key="GradientExpense" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FF5252" Offset="0.0" />
+        <GradientStop Color="#FF1744" Offset="0.5" />
+        <GradientStop Color="#D50000" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Savings Gradient (Blue to Cyan) -->
+    <LinearGradientBrush x:Key="GradientSavings" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#448AFF" Offset="0.0" />
+        <GradientStop Color="#2979FF" Offset="0.5" />
+        <GradientStop Color="#2962FF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Background Gradient (Subtle) -->
+    <LinearGradientBrush x:Key="GradientBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FAFAFA" Offset="0.0" />
+        <GradientStop Color="#F5F5F5" Offset="0.5" />
+        <GradientStop Color="#EEEEEE" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Dark Background Gradient -->
+    <LinearGradientBrush x:Key="GradientBackgroundDark" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#1C1B1F" Offset="0.0" />
+        <GradientStop Color="#121212" Offset="0.5" />
+        <GradientStop Color="#000000" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Glassmorphism Overlay (Semi-transparent white) -->
+    <LinearGradientBrush x:Key="GlassOverlay" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#40FFFFFF" Offset="0.0" />
+        <GradientStop Color="#20FFFFFF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Glassmorphism Overlay Dark -->
+    <LinearGradientBrush x:Key="GlassOverlayDark" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#40000000" Offset="0.0" />
+        <GradientStop Color="#20000000" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- ==================== -->
+    <!-- Radial Gradients     -->
+    <!-- ==================== -->
+
+    <RadialGradientBrush x:Key="RadialGlowPrimary" Center="0.5,0.5" Radius="1.0">
+        <GradientStop Color="#806750A4" Offset="0.0" />
+        <GradientStop Color="#406750A4" Offset="0.5" />
+        <GradientStop Color="#006750A4" Offset="1.0" />
+    </RadialGradientBrush>
+
+    <!-- ==================== -->
+    <!-- Glassmorphism Cards  -->
+    <!-- ==================== -->
+
+    <!-- Hero Card with Glassmorphism -->
+    <Style x:Key="HeroCardGlass" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GradientBalance}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="Padding" Value="24,20" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.25" Offset="0,8" Radius="24" />
+        </Setter>
+    </Style>
+
+    <!-- Floating Glass Card (Stats) -->
+    <Style x:Key="FloatingGlassCard" TargetType="Border">
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource GlassOverlay}, Dark={StaticResource GlassOverlayDark}}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="#30FFFFFF" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="Padding" Value="16,14" />
+        <Setter Property="BackgroundColor" Value="#15FFFFFF" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.15" Offset="0,4" Radius="16" />
+        </Setter>
+    </Style>
+
+    <!-- Income Glass Card -->
+    <Style x:Key="IncomeGlassCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GradientIncome}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="Padding" Value="16,14" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#00C853" Opacity="0.30" Offset="0,6" Radius="20" />
+        </Setter>
+    </Style>
+
+    <!-- Expense Glass Card -->
+    <Style x:Key="ExpenseGlassCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GradientExpense}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="Padding" Value="16,14" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#FF1744" Opacity="0.30" Offset="0,6" Radius="20" />
+        </Setter>
+    </Style>
+
+    <!-- Savings Glass Card -->
+    <Style x:Key="SavingsGlassCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource GradientSavings}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="Padding" Value="16,14" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#2979FF" Opacity="0.30" Offset="0,6" Radius="20" />
+        </Setter>
+    </Style>
+
+    <!-- Neutral Glass Card (Transaction Count, etc) -->
+    <Style x:Key="NeutralGlassCard" TargetType="Border">
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource GlassOverlay}, Dark={StaticResource GlassOverlayDark}}" />
+        <Setter Property="StrokeThickness" Value="1.5" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light=#30000000, Dark=#30FFFFFF}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="Padding" Value="16,14" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#25FFFFFF, Dark=#15FFFFFF}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.12" Offset="0,3" Radius="12" />
+        </Setter>
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Elevated Cards       -->
+    <!-- ==================== -->
+
+    <!-- Card with dramatic shadow -->
+    <Style x:Key="CardDramatic" TargetType="Border">
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource CardBackgroundDark}}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.20" Offset="0,8" Radius="20" />
+        </Setter>
+    </Style>
+
+    <!-- Transaction Card (Modern) - Optimized without shadow for better performance -->
+    <Style x:Key="TransactionCardModern" TargetType="Border">
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource CardBackgroundDark}}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+        <Setter Property="Padding" Value="14,12" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+        <!-- Shadow removed for performance optimization - renders much faster with 100+ items -->
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Advanced Typography  -->
+    <!-- ==================== -->
+
+    <!-- Hero Balance Amount (Extra Large) -->
+    <Style x:Key="HeroBalanceAmount" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="FontSize" Value="48" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="LineHeight" Value="1.1" />
+    </Style>
+
+    <!-- Stats Amount (Medium) -->
+    <Style x:Key="StatsAmount" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="LineHeight" Value="1.2" />
+    </Style>
+
+    <!-- Stats Label -->
+    <Style x:Key="StatsLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Opacity" Value="0.85" />
+        <Setter Property="TextTransform" Value="Uppercase" />
+    </Style>
+
+    <!-- Period Label -->
+    <Style x:Key="PeriodLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Opacity" Value="0.75" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Icon Containers      -->
+    <!-- ==================== -->
+
+    <!-- Circular Icon Background -->
+    <Style x:Key="IconCircle" TargetType="Border">
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="WidthRequest" Value="48" />
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="BackgroundColor" Value="#20FFFFFF" />
+    </Style>
+
+    <!-- Icon Circle Income -->
+    <Style x:Key="IconCircleIncome" TargetType="Border" BasedOn="{StaticResource IconCircle}">
+        <Setter Property="BackgroundColor" Value="#3000C853" />
+    </Style>
+
+    <!-- Icon Circle Expense -->
+    <Style x:Key="IconCircleExpense" TargetType="Border" BasedOn="{StaticResource IconCircle}">
+        <Setter Property="BackgroundColor" Value="#30FF1744" />
+    </Style>
+
+</ResourceDictionary>

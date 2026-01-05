@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.LicenseActivationPage"
+             x:DataType="vm:LicenseActivationViewModel"
+             Title="Attiva Licenza"
+             Shell.BackButtonBehavior="{BackButtonBehavior IsEnabled=False}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+            <Label Text="Attiva la tua licenza Beta"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Inserisci la Beta Key ricevuta via email"
+                   FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource TextSecondaryDark}}"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20" />
+
+            <Entry Placeholder="Beta Key"
+                   Text="{Binding LicenseKey}"
+                   IsEnabled="{Binding IsActivating, Converter={StaticResource InvertedBoolConverter}}"
+                   Margin="0,0,0,10" />
+
+            <!-- Error Panel -->
+            <Frame IsVisible="{Binding HasError}"
+                   BackgroundColor="#D32F2F"
+                   Padding="15"
+                   Margin="0,0,0,10"
+                   CornerRadius="8">
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="White"
+                       FontSize="14" />
+            </Frame>
+
+            <Button Text="Attiva"
+                    Command="{Binding ActivateLicenseCommand}"
+                    IsEnabled="{Binding IsActivating, Converter={StaticResource InvertedBoolConverter}}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    HeightRequest="48"
+                    CornerRadius="8"
+                    FontSize="16"
+                    FontAttributes="Bold" />
+
+            <ActivityIndicator IsRunning="{Binding IsActivating}"
+                               IsVisible="{Binding IsActivating}"
+                               Color="{StaticResource Primary}"
+                               Margin="0,10,0,0" />
+
+            <!-- Nota: Licenza obbligatoria - nessun skip -->
+            <Label Text="La licenza è obbligatoria per usare MoneyMind"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource TextSecondaryDark}}"
+                   HorizontalOptions="Center"
+                   Margin="0,30,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

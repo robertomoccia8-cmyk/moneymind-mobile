@@ -1,0 +1,6 @@
+"Date","Time","Name","Type","Status","Amount","Currency"
+"11/01/2025","10:30:00","Company XYZ","Payment Received","Completed","1500.00","EUR"
+"11/05/2025","14:22:15","Amazon EU","Payment Sent","Completed","-89.99","EUR"
+"11/08/2025","09:15:00","Netflix","Subscription","Completed","-12.99","EUR"
+"11/12/2025","18:45:30","eBay Seller","Purchase","Completed","-55.00","EUR"
+"11/20/2025","11:00:00","Refund - Amazon","Refund","Completed","25.00","EUR"

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MoneyMindApp.ViewModels"
+             xmlns:models="clr-namespace:MoneyMindApp.Models"
+             x:Class="MoneyMindApp.Views.SalaryConfigPage"
+             x:DataType="viewmodels:SalaryConfigViewModel"
+             Title="Configurazione Stipendio"
+             Shell.NavBarIsVisible="True">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Giorno Pagamento -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Giorno di Pagamento" FontSize="16" FontAttributes="Bold" />
+                    <Label Text="Seleziona il giorno del mese in cui ricevi lo stipendio"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                    <!-- Current Day Display -->
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="{StaticResource Primary}"
+                            Padding="16"
+                            HorizontalOptions="Center">
+                        <Label Text="{Binding PaymentDay, StringFormat='Giorno {0}'}"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center" />
+                    </Border>
+
+                    <!-- Slider -->
+                    <Slider Minimum="1"
+                            Maximum="31"
+                            Value="{Binding PaymentDay}"
+                            MinimumTrackColor="{StaticResource Primary}"
+                            MaximumTrackColor="{StaticResource Gray300}" />
+
+                    <Grid ColumnDefinitions="*,*,*" Margin="0,4,0,0">
+                        <Label Grid.Column="0" Text="1" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        <Label Grid.Column="1" Text="15" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" HorizontalOptions="Center" />
+                        <Label Grid.Column="2" Text="31" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" HorizontalOptions="End" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Gestione Weekend -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Gestione Weekend" FontSize="16" FontAttributes="Bold" />
+                    <Label Text="Cosa fare se il giorno di pagamento cade in un weekend?"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                    <!-- Picker with visible border -->
+                    <Border StrokeShape="RoundRectangle 8"
+                            Stroke="{StaticResource Primary}"
+                            StrokeThickness="2"
+                            Padding="12,8"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}">
+                        <Picker Title="Seleziona opzione"
+                                ItemsSource="{Binding WeekendOptions}"
+                                SelectedItem="{Binding SelectedWeekendOption}"
+                                FontSize="16"
+                                TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                BackgroundColor="Transparent" />
+                    </Border>
+
+                    <!-- Spiegazione opzione selezionata -->
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2A2A2A}"
+                            Padding="12"
+                            IsVisible="{Binding SelectedWeekendOption, Converter={StaticResource IsNotNullConverter}}">
+                        <Label Text="{Binding WeekendExplanation}"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Eccezioni Mensili -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Eccezioni Mensili" FontSize="16" FontAttributes="Bold" />
+                    <Label Text="Aggiungi eccezioni per mesi specifici (es: Dicembre → giorno 15)"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                    <!-- Add Exception Form -->
+                    <Border StrokeShape="RoundRectangle 8"
+                            BackgroundColor="{AppThemeBinding Light=#F0F9FF, Dark=#1E3A5F}"
+                            Padding="12">
+                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,*" RowSpacing="10" ColumnSpacing="10">
+                            <!-- Month Picker -->
+                            <Border Grid.Row="0" Grid.Column="0"
+                                    StrokeShape="RoundRectangle 6"
+                                    Stroke="{StaticResource Gray300}"
+                                    Padding="8,4"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                                <Picker Title="Mese"
+                                        ItemsSource="{Binding MonthOptions}"
+                                        SelectedItem="{Binding SelectedExceptionMonth}"
+                                        FontSize="14" />
+                            </Border>
+
+                            <!-- Year Picker -->
+                            <Border Grid.Row="0" Grid.Column="1"
+                                    StrokeShape="RoundRectangle 6"
+                                    Stroke="{StaticResource Gray300}"
+                                    Padding="8,4"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                                <Picker Title="Anno"
+                                        ItemsSource="{Binding YearOptions}"
+                                        SelectedItem="{Binding SelectedExceptionYear}"
+                                        FontSize="14" />
+                            </Border>
+
+                            <!-- Day Slider -->
+                            <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="4">
+                                <Label Text="{Binding ExceptionPaymentDay, StringFormat='Giorno alternativo: {0}'}"
+                                       FontSize="12"
+                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                                <Slider Minimum="1"
+                                        Maximum="31"
+                                        Value="{Binding ExceptionPaymentDay}"
+                                        MinimumTrackColor="{StaticResource Secondary}"
+                                        MaximumTrackColor="{StaticResource Gray300}" />
+                            </VerticalStackLayout>
+
+                            <!-- Add Button -->
+                            <Button Grid.Row="2" Grid.ColumnSpan="2"
+                                    Text="Aggiungi Eccezione"
+                                    Command="{Binding AddExceptionCommand}"
+                                    IsEnabled="{Binding IsAddingException, Converter={StaticResource InverseBoolConverter}}"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    TextColor="White"
+                                    FontSize="14"
+                                    HeightRequest="40" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Exceptions List -->
+                    <CollectionView ItemsSource="{Binding SalaryExceptions}"
+                                   EmptyView="Nessuna eccezione configurata">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:SalaryException">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Elimina"
+                                                      BackgroundColor="{StaticResource Danger}"
+                                                      Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SalaryConfigViewModel}}, Path=DeleteExceptionCommand}"
+                                                      CommandParameter="{Binding .}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Border StrokeShape="RoundRectangle 8"
+                                            BackgroundColor="{AppThemeBinding Light=#FFF7ED, Dark=#7C2D12}"
+                                            Padding="12"
+                                            Margin="0,4">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding GiornoAlternativo}"
+                                                   FontSize="24"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource Secondary}"
+                                                   VerticalOptions="Center" />
+                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                                <Label Text="{Binding MeseNome}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold" />
+                                                <Label Text="{Binding AnnoDisplay}"
+                                                       FontSize="12"
+                                                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="2"
+                                                   Text="Scorri per eliminare"
+                                                   FontSize="10"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                                                   VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Anteprima Prossimi Pagamenti -->
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                <VerticalStackLayout Padding="16" Spacing="12">
+                    <Label Text="Prossimi Pagamenti" FontSize="16" FontAttributes="Bold" />
+                    <Label Text="Anteprima dei prossimi 3 mesi (considera eccezioni)"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+
+                    <CollectionView ItemsSource="{Binding PreviewPayments}"
+                                   EmptyView="Nessun pagamento previsto">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:PaymentPreview">
+                                <Border StrokeShape="RoundRectangle 8"
+                                        BackgroundColor="{AppThemeBinding Light=#F0F9FF, Dark=#1E3A8A}"
+                                        Padding="12"
+                                        Margin="0,4">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                        <Label Grid.Column="0"
+                                               Text="{Binding FormattedDay}"
+                                               FontSize="24"
+                                               FontAttributes="Bold"
+                                               VerticalOptions="Center" />
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding FormattedMonthYear}"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold" />
+                                            <Label Text="{Binding FormattedDayOfWeek}"
+                                                   FontSize="12"
+                                                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2"
+                                               Text="{Binding Note}"
+                                               FontSize="11"
+                                               TextColor="{StaticResource Primary}"
+                                               VerticalOptions="Center"
+                                               IsVisible="{Binding Note, Converter={StaticResource IsNotNullConverter}}" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Save Button -->
+            <Button Text="Salva Configurazione"
+                    Command="{Binding SaveCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    Margin="0,10,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

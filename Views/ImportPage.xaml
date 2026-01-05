@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.ImportPage"
+             Title="Importa Transazioni"
+             Shell.NavBarIsVisible="True">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- File Selection -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                   Padding="16" CornerRadius="12">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="📁 Seleziona File" FontSize="18" FontAttributes="Bold"/>
+
+                    <Button Text="📂 Scegli File CSV/Excel"
+                            Command="{Binding SelectFileCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"/>
+
+                    <Label Text="{Binding SelectedFileName}"
+                           IsVisible="{Binding IsFileSelected}"
+                           FontSize="14"
+                           TextColor="{StaticResource Primary}"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Column Mapping -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                   Padding="16" CornerRadius="12"
+                   IsVisible="{Binding IsFileSelected}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="🔗 Mapping Colonne" FontSize="18" FontAttributes="Bold"/>
+
+                    <!-- Data Column -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Colonna Data *" FontSize="14"/>
+                        <Picker ItemsSource="{Binding AvailableColumns}"
+                                SelectedIndex="{Binding SelectedDataColumn}"
+                                Title="Seleziona..."/>
+                    </VerticalStackLayout>
+
+                    <!-- Importo Column -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Colonna Importo *" FontSize="14"/>
+                        <Picker ItemsSource="{Binding AvailableColumns}"
+                                SelectedIndex="{Binding SelectedImportoColumn}"
+                                Title="Seleziona..."/>
+                    </VerticalStackLayout>
+
+                    <!-- Descrizione Column -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Colonna Descrizione *" FontSize="14"/>
+                        <Picker ItemsSource="{Binding AvailableColumns}"
+                                SelectedIndex="{Binding SelectedDescrizioneColumn}"
+                                Title="Seleziona..."/>
+                    </VerticalStackLayout>
+
+                    <!-- Causale Column (optional) -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Colonna Causale (opzionale)" FontSize="14"/>
+                        <Picker ItemsSource="{Binding AvailableColumns}"
+                                SelectedIndex="{Binding SelectedCausaleColumn}"
+                                Title="Nessuna"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Format Options -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                   Padding="16" CornerRadius="12"
+                   IsVisible="{Binding IsFileSelected}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="⚙️ Opzioni Formato" FontSize="18" FontAttributes="Bold"/>
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Formato Data" FontSize="14"/>
+                            <Picker ItemsSource="{Binding DateFormats}"
+                                    SelectedItem="{Binding SelectedDateFormat}"/>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Separatore Decimali" FontSize="14"/>
+                            <Picker ItemsSource="{Binding DecimalSeparators}"
+                                    SelectedItem="{Binding SelectedDecimalSeparator}"/>
+                        </VerticalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="8">
+                            <CheckBox IsChecked="{Binding HasHeader}"/>
+                            <Label Text="Il file ha intestazione" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <Button Text="➡️ Avanti - Validazione Transazioni"
+                            Command="{Binding PreviewImportCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            HeightRequest="50"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Status -->
+            <Label Text="{Binding StatusMessage}"
+                   FontSize="14"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{StaticResource Primary}"/>
+
+            <!-- Loading -->
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               IsVisible="{Binding IsLoading}"
+                               Color="{StaticResource Primary}"/>
+
+            <!-- Action Buttons -->
+            <Button Text="❌ Annulla"
+                    Command="{Binding CancelCommand}"
+                    BackgroundColor="Gray"
+                    TextColor="White"
+                    IsVisible="{Binding IsFileSelected}"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

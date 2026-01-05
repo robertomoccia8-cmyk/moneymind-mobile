@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.CreateAccountPage"
+             x:DataType="vm:CreateAccountViewModel"
+             Title="Crea Conto">
+    <VerticalStackLayout Spacing="20" Padding="20">
+        <Label Text="Crea il tuo primo conto" FontSize="24" FontAttributes="Bold" />
+        <Entry Placeholder="Nome Conto (es. Conto Principale)" Text="{Binding AccountName}" />
+        <Entry Placeholder="Saldo Iniziale" Text="{Binding InitialBalance}" Keyboard="Numeric" />
+        <Button Text="Crea Conto" Command="{Binding CreateAccountCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

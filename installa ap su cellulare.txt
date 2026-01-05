@@ -1,0 +1,1 @@
+adb install -r C:\Users\rober\Documents\MoneyMindApp\bin\Debug\net8.0-android\com.moneymind.app-Signed.apk

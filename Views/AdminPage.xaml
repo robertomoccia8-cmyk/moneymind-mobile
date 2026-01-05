@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.AdminPage"
+             x:DataType="viewmodels:AdminViewModel"
+             Title="👑 Pannello Admin">
+
+    <RefreshView Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView>
+            <VerticalStackLayout Padding="16" Spacing="16">
+
+                <!-- Warning Banner -->
+                <Border StrokeShape="RoundRectangle 12"
+                        BackgroundColor="{StaticResource Danger}"
+                        Padding="16">
+                    <Label Text="⚠️ AREA AMMINISTRATORE - Accesso Riservato"
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                </Border>
+
+                <!-- Database Statistics -->
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <VerticalStackLayout Padding="16" Spacing="12">
+                        <Label Text="💾 Statistiche Database"
+                               FontSize="18"
+                               FontAttributes="Bold" />
+
+                        <Grid ColumnDefinitions="Auto,*"
+                              RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                              RowSpacing="8"
+                              ColumnSpacing="12">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="DB Globale:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding GlobalDatabaseSize}"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="DB Account:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding AccountDatabaseSize}"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="Totale:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding TotalDatabaseSize}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Primary}" />
+
+                            <Label Grid.Row="3" Grid.Column="0"
+                                   Text="Conti:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="3" Grid.Column="1"
+                                   Text="{Binding TotalAccounts}"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="4" Grid.Column="0"
+                                   Text="Transazioni:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="4" Grid.Column="1"
+                                   Text="{Binding TotalTransactions}"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="5" Grid.Column="0"
+                                   Text="Impostazioni:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="5" Grid.Column="1"
+                                   Text="{Binding TotalSettings}"
+                                   FontAttributes="Bold" />
+                        </Grid>
+
+                        <!-- Database Actions -->
+                        <Button Text="🔧 Ottimizza Database (VACUUM)"
+                                Command="{Binding VacuumDatabaseCommand}"
+                                BackgroundColor="{StaticResource Info}"
+                                Margin="0,12,0,0" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Logging Statistics -->
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <VerticalStackLayout Padding="16" Spacing="12">
+                        <Label Text="📋 Statistiche Log"
+                               FontSize="18"
+                               FontAttributes="Bold" />
+
+                        <Grid ColumnDefinitions="Auto,*"
+                              RowDefinitions="Auto,Auto,Auto"
+                              RowSpacing="8"
+                              ColumnSpacing="12">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="Dimensione File:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding LogFileSize}"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="Voci Log:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding LogEntryCount}"
+                                   FontAttributes="Bold" />
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="Crash Reports:"
+                                   TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Row="2" Grid.Column="1"
+                                   Text="{Binding CrashReportCount}"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Danger}" />
+                        </Grid>
+
+                        <!-- Log Actions -->
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="8" Margin="0,12,0,0">
+                            <Button Grid.Column="0"
+                                    Text="📤 Esporta"
+                                    Command="{Binding ExportAllLogsCommand}"
+                                    BackgroundColor="{StaticResource Info}" />
+                            <Button Grid.Column="1"
+                                    Text="🗑️ Pulisci"
+                                    Command="{Binding ClearOldLogsCommand}"
+                                    BackgroundColor="{StaticResource Warning}" />
+                        </Grid>
+
+                        <Button Text="👁 Visualizza Log Completi"
+                                Command="{Binding ViewFullLogsCommand}"
+                                BackgroundColor="{StaticResource Success}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Recent Logs -->
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}">
+                    <VerticalStackLayout Padding="16" Spacing="12">
+                        <Label Text="📝 Ultimi Log (20)"
+                               FontSize="18"
+                               FontAttributes="Bold" />
+
+                        <Button Text="📋 Copia Log negli Appunti"
+                                Command="{Binding CopyLogsToClipboardCommand}"
+                                BackgroundColor="{StaticResource Primary}"
+                                Margin="0,0,0,8" />
+
+                        <CollectionView ItemsSource="{Binding RecentLogs}"
+                                        MaximumHeightRequest="300">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Frame Padding="8"
+                                           Margin="0,2"
+                                           BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+                                           BorderColor="Transparent">
+                                        <Label Text="{Binding}"
+                                               FontSize="12"
+                                               FontFamily="Courier New"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <Label Text="Nessun log disponibile"
+                                       TextColor="{StaticResource Gray600}"
+                                       HorizontalOptions="Center"
+                                       Margin="0,20" />
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Recent Crashes -->
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="{StaticResource Danger}"
+                        StrokeThickness="2"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                        IsVisible="{Binding CrashReportCount}">
+                    <VerticalStackLayout Padding="16" Spacing="12">
+                        <Label Text="💥 Crash Reports Recenti"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Danger}" />
+
+                        <CollectionView ItemsSource="{Binding RecentCrashes}"
+                                        MaximumHeightRequest="200">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="x:String">
+                                    <Frame Padding="8"
+                                           Margin="0,2"
+                                           BackgroundColor="{StaticResource Danger}"
+                                           BorderColor="Transparent">
+                                        <Label Text="{Binding}"
+                                               FontSize="12"
+                                               TextColor="White"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Button Text="📤 Esporta Crash Reports"
+                                Command="{Binding ExportCrashReportsCommand}"
+                                BackgroundColor="{StaticResource Danger}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Footer -->
+                <Label Text="⚠️ Questo pannello è accessibile solo agli amministratori"
+                       FontSize="12"
+                       TextColor="{StaticResource Gray600}"
+                       HorizontalOptions="Center"
+                       Margin="0,16,0,0" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

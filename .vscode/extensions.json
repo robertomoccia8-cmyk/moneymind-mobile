@@ -1,0 +1,29 @@
+{
+  "recommendations": [
+    // C# Development
+    "ms-dotnettools.csdevkit",
+    "ms-dotnettools.csharp",
+    
+    // XAML Support
+    "ms-dotnettools.xaml",
+    
+    // Error Visualization (MOLTO UTILE!)
+    "usernamehw.errorlens",
+    
+    // Build & MSBuild
+    "tintoy.msbuild-project-tools",
+    
+    // JSON Support
+    "eriklynd.json-tools",
+    
+    // Git
+    "eamodio.gitlens",
+    
+    // IntelliCode (AI suggestions)
+    "visualstudioexptteam.vscodeintellicode",
+    
+    // PowerShell (per gli script)
+    "ms-vscode.powershell"
+  ],
+  "unwantedRecommendations": []
+}

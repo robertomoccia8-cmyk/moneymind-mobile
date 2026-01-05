@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MoneyMindApp.ViewModels"
+             xmlns:models="clr-namespace:MoneyMindApp.Models"
+             x:Class="MoneyMindApp.Views.DuplicatesPage"
+             x:DataType="viewmodels:DuplicatesViewModel"
+             Title="Rileva Duplicati"
+             Shell.NavBarIsVisible="True">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="16">
+
+        <!-- Header Stats -->
+        <Frame Grid.Row="0"
+               BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+               Padding="16" CornerRadius="12">
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Label Text="📊 Totali" FontSize="12" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding TotalTransactions}" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                    <Label Text="🔍 Gruppi" FontSize="12" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding DuplicateGroupsCount}" FontSize="24" FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                    <Label Text="⚠️ Duplicati" FontSize="12" TextColor="Gray" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding TotalDuplicatesCount}" FontSize="24" FontAttributes="Bold"
+                           TextColor="Red" HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- Scan Button -->
+        <Button Grid.Row="1"
+                Text="🔍 Rileva Duplicati"
+                Command="{Binding DetectDuplicatesCommand}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                CornerRadius="12"/>
+
+        <!-- Results List -->
+        <Frame Grid.Row="2"
+               BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray900}}"
+               Padding="8" CornerRadius="12">
+            <Grid>
+                <!-- Loading -->
+                <VerticalStackLayout IsVisible="{Binding IsLoading}"
+                                     VerticalOptions="Center" HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="True" Color="{StaticResource Primary}"/>
+                    <Label Text="Scansione in corso..." Margin="0,16,0,0" TextColor="Gray"/>
+                </VerticalStackLayout>
+
+                <!-- Empty State - Not Scanned -->
+                <VerticalStackLayout IsVisible="{Binding HasScanned, Converter={StaticResource InverseBoolConverter}}"
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     Padding="32">
+                    <Label Text="🔍" FontSize="64" HorizontalTextAlignment="Center"/>
+                    <Label Text="Premi il pulsante per scansionare"
+                           FontSize="16" TextColor="Gray" HorizontalTextAlignment="Center" Margin="0,16,0,0"/>
+                    <Label Text="Verranno rilevate transazioni con:&#10;• Stessa data&#10;• Stesso importo (±0.01€)&#10;• Descrizione simile (>80%)"
+                           FontSize="14" TextColor="Gray" HorizontalTextAlignment="Center" Margin="0,8,0,0"/>
+                </VerticalStackLayout>
+
+                <!-- Empty State - No Duplicates -->
+                <VerticalStackLayout IsVisible="{Binding HasDuplicates, Converter={StaticResource InverseBoolConverter}}"
+                                     VerticalOptions="Center" HorizontalOptions="Center"
+                                     Padding="32">
+                    <Label Text="✅" FontSize="64" HorizontalTextAlignment="Center"
+                           IsVisible="{Binding HasScanned}"/>
+                    <Label Text="Nessun duplicato trovato!"
+                           FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="0,16,0,0"
+                           IsVisible="{Binding HasScanned}"/>
+                </VerticalStackLayout>
+
+                <!-- Duplicate Groups List -->
+                <CollectionView ItemsSource="{Binding DuplicateGroups}"
+                                IsVisible="{Binding HasDuplicates}"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:DuplicateGroup">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="🗑️ Elimina"
+                                                   BackgroundColor="Red"
+                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:DuplicatesViewModel}}, Path=DeleteGroupCommand}"
+                                                   CommandParameter="{Binding .}"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Frame Margin="0,4" Padding="12" CornerRadius="8"
+                                       BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray600}}">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                        <!-- Warning Icon -->
+                                        <Frame Grid.Column="0"
+                                               BackgroundColor="#FFF3E0"
+                                               CornerRadius="8"
+                                               Padding="8"
+                                               VerticalOptions="Center">
+                                            <Label Text="⚠️" FontSize="24"/>
+                                        </Frame>
+
+                                        <!-- Info -->
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding Description}"
+                                                   FontAttributes="Bold"
+                                                   LineBreakMode="TailTruncation"
+                                                   MaxLines="1"/>
+                                            <HorizontalStackLayout Spacing="8">
+                                                <Label Text="{Binding DateFormatted}" FontSize="12" TextColor="Gray"/>
+                                                <Label Text="•" FontSize="12" TextColor="Gray"/>
+                                                <Label Text="{Binding AmountFormatted}" FontSize="12" TextColor="Gray"/>
+                                            </HorizontalStackLayout>
+                                            <Label Text="{Binding TransactionCount, StringFormat='{0} transazioni simili'}"
+                                                   FontSize="12" TextColor="{StaticResource Primary}"/>
+                                        </VerticalStackLayout>
+
+                                        <!-- Similarity Badge -->
+                                        <Frame Grid.Column="2"
+                                               BackgroundColor="{StaticResource Primary}"
+                                               CornerRadius="12"
+                                               Padding="8,4"
+                                               VerticalOptions="Center">
+                                            <Label Text="{Binding SimilarityFormatted}"
+                                                   TextColor="White"
+                                                   FontSize="12"
+                                                   FontAttributes="Bold"/>
+                                        </Frame>
+                                    </Grid>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Frame>
+
+        <!-- Bottom Actions -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="12" IsVisible="{Binding HasDuplicates}">
+            <Button Grid.Column="0"
+                    Text="Annulla"
+                    BackgroundColor="Gray"
+                    TextColor="White"
+                    Command="{Binding DetectDuplicatesCommand}"/>
+            <Button Grid.Column="1"
+                    Text="🗑️ Elimina Tutti"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Command="{Binding DeleteAllDuplicatesCommand}"/>
+        </Grid>
+
+        <!-- Status Message -->
+        <Label Grid.Row="3"
+               Text="{Binding StatusMessage}"
+               IsVisible="{Binding HasDuplicates, Converter={StaticResource InverseBoolConverter}}"
+               HorizontalTextAlignment="Center"
+               FontSize="14"
+               TextColor="Gray"/>
+
+    </Grid>
+</ContentPage>

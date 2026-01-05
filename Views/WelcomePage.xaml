@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MoneyMindApp.ViewModels"
+             x:Class="MoneyMindApp.Views.WelcomePage"
+             x:DataType="vm:WelcomeViewModel"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="Center">
+
+            <Label Text="💰"
+                   FontSize="80"
+                   HorizontalOptions="Center" />
+
+            <Label Text="Benvenuto in MoneyMind"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Text="Gestisci le tue finanze personali in modo semplice e sicuro"
+                   FontSize="16"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+
+            <VerticalStackLayout Spacing="15" Margin="0,30,0,0">
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="✅" FontSize="24" />
+                    <Label Text="Traccia entrate e uscite"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="📊" FontSize="24" />
+                    <Label Text="Analizza le tue spese"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="🔐" FontSize="24" />
+                    <Label Text="Dati protetti localmente"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="🔄" FontSize="24" />
+                    <Label Text="Sincronizza con desktop"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <Button Text="Inizia"
+                    Command="{Binding NavigateToLicenseCommand}"
+                    Margin="0,30,0,0"
+                    HorizontalOptions="Fill" />
+
+            <Button Text="Salta"
+                    Command="{Binding SkipOnboardingCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource Primary}"
+                    BorderWidth="1"
+                    BorderColor="{StaticResource Primary}"
+                    HorizontalOptions="Fill" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

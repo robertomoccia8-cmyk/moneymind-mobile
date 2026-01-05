@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ==================== -->
+    <!-- Card Styles          -->
+    <!-- ==================== -->
+
+    <Style x:Key="CardStyle" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource CardBackgroundDark}}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="HasShadow" Value="True" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.08" Offset="0,2" Radius="8" />
+        </Setter>
+    </Style>
+
+    <Style x:Key="CardElevated" TargetType="Frame" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.12" Offset="0,4" Radius="12" />
+        </Setter>
+    </Style>
+
+    <Style x:Key="CardOutlined" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Outline}, Dark={StaticResource OutlineVariant}}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <!-- Stats Cards (Dashboard) -->
+    <Style x:Key="StatsCard" TargetType="Frame" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="Padding" Value="16,12" />
+    </Style>
+
+    <Style x:Key="StatsCardIncome" TargetType="Frame" BasedOn="{StaticResource StatsCard}">
+        <Setter Property="BackgroundColor" Value="{StaticResource IncomeBackground}" />
+        <Setter Property="BorderColor" Value="{StaticResource Income}" />
+    </Style>
+
+    <Style x:Key="StatsCardExpense" TargetType="Frame" BasedOn="{StaticResource StatsCard}">
+        <Setter Property="BackgroundColor" Value="{StaticResource ExpenseBackground}" />
+        <Setter Property="BorderColor" Value="{StaticResource Expense}" />
+    </Style>
+
+    <Style x:Key="StatsCardSavings" TargetType="Frame" BasedOn="{StaticResource StatsCard}">
+        <Setter Property="BackgroundColor" Value="{StaticResource SavingsBackground}" />
+        <Setter Property="BorderColor" Value="{StaticResource Savings}" />
+    </Style>
+
+    <Style x:Key="StatsCardBalance" TargetType="Frame" BasedOn="{StaticResource StatsCard}">
+        <Setter Property="BackgroundColor" Value="{StaticResource BalanceBackground}" />
+        <Setter Property="BorderColor" Value="{StaticResource Balance}" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Button Styles        -->
+    <!-- ==================== -->
+
+    <!-- Filled Button (Primary action) -->
+    <Style x:Key="FilledButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource OnPrimary}" />
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="24,10" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.15" Offset="0,2" Radius="4" />
+        </Setter>
+    </Style>
+
+    <!-- Outlined Button (Secondary action) -->
+    <Style x:Key="OutlinedButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderColor" Value="{StaticResource Outline}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Padding" Value="24,10" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+    </Style>
+
+    <!-- Text Button (Tertiary action) -->
+    <Style x:Key="TextButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+    </Style>
+
+    <!-- FAB (Floating Action Button) -->
+    <Style x:Key="FAB" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource OnPrimary}" />
+        <Setter Property="CornerRadius" Value="28" />
+        <Setter Property="WidthRequest" Value="56" />
+        <Setter Property="HeightRequest" Value="56" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.2" Offset="0,4" Radius="12" />
+        </Setter>
+    </Style>
+
+    <Style x:Key="FABExtended" TargetType="Button" BasedOn="{StaticResource FAB}">
+        <Setter Property="WidthRequest" Value="-1" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- Icon Button -->
+    <Style x:Key="IconButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Input Styles         -->
+    <!-- ==================== -->
+
+    <Style x:Key="FilledEntry" TargetType="Entry">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource OnSurfaceVariant}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="MinimumHeightRequest" Value="56" />
+        <Setter Property="Margin" Value="0,8" />
+    </Style>
+
+    <Style x:Key="OutlinedEntry" TargetType="Entry">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource TextPrimaryDark}}" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource OnSurfaceVariant}" />
+        <Setter Property="FontFamily" Value="OpenSansRegular" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="MinimumHeightRequest" Value="56" />
+        <Setter Property="Margin" Value="0,8" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Chip Styles          -->
+    <!-- ==================== -->
+
+    <Style x:Key="Chip" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <Style x:Key="ChipSelected" TargetType="Frame" BasedOn="{StaticResource Chip}">
+        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryContainer}" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+    </Style>
+
+    <Style x:Key="ChipOutlined" TargetType="Frame" BasedOn="{StaticResource Chip}">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderColor" Value="{StaticResource Outline}" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Divider              -->
+    <!-- ==================== -->
+
+    <Style x:Key="Divider" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource Outline}}" />
+        <Setter Property="HorizontalOptions" Value="Fill" />
+        <Setter Property="Margin" Value="0,8" />
+    </Style>
+
+    <Style x:Key="DividerVertical" TargetType="BoxView" BasedOn="{StaticResource Divider}">
+        <Setter Property="HeightRequest" Value="-1" />
+        <Setter Property="WidthRequest" Value="1" />
+        <Setter Property="VerticalOptions" Value="Fill" />
+        <Setter Property="Margin" Value="8,0" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Badge / Counter      -->
+    <!-- ==================== -->
+
+    <Style x:Key="Badge" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{StaticResource Danger}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="HasShadow" Value="False" />
+        <Setter Property="MinimumWidthRequest" Value="24" />
+        <Setter Property="MinimumHeightRequest" Value="24" />
+    </Style>
+
+    <Style x:Key="BadgeSuccess" TargetType="Frame" BasedOn="{StaticResource Badge}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Success}" />
+    </Style>
+
+    <Style x:Key="BadgeWarning" TargetType="Frame" BasedOn="{StaticResource Badge}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Warning}" />
+    </Style>
+
+    <Style x:Key="BadgeInfo" TargetType="Frame" BasedOn="{StaticResource Badge}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Info}" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- List Item            -->
+    <!-- ==================== -->
+
+    <Style x:Key="ListItem" TargetType="Grid">
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="ListItemClickable" TargetType="Grid" BasedOn="{StaticResource ListItem}">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="Selected">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource SurfaceDark}}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Bottom Sheet         -->
+    <!-- ==================== -->
+
+    <Style x:Key="BottomSheet" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Surface}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="28" />
+        <Setter Property="Padding" Value="24,16" />
+        <Setter Property="HasShadow" Value="True" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.16" Offset="0,-4" Radius="16" />
+        </Setter>
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Snackbar             -->
+    <!-- ==================== -->
+
+    <Style x:Key="Snackbar" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource SurfaceVariant}}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="16,14" />
+        <Setter Property="HasShadow" Value="True" />
+        <Setter Property="Shadow">
+            <Shadow Brush="Black" Opacity="0.2" Offset="0,3" Radius="8" />
+        </Setter>
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Empty State          -->
+    <!-- ==================== -->
+
+    <Style x:Key="EmptyStateContainer" TargetType="VerticalStackLayout">
+        <Setter Property="Padding" Value="32" />
+        <Setter Property="Spacing" Value="16" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- ==================== -->
+    <!-- Loading Skeleton     -->
+    <!-- ==================== -->
+
+    <Style x:Key="SkeletonBox" TargetType="BoxView">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource SurfaceDark}}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Opacity" Value="0.6" />
+    </Style>
+
+</ResourceDictionary>
